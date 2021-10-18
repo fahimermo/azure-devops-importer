@@ -1,36 +1,38 @@
 import React from "react";
-import azureDevopsClient from './azureDevops';
+import azureDevopsClient, { getOrganizationInfo, getWorkItems} from './azureDevops';
 
 const importer = aha.getImporter("my-new-importer.importer.azureDevopsImporter");
 
 async function authenticate() {
-  const authData = await aha.auth("ado", { useCachedRetry: true });
+  const authData = await aha.auth("ado", { useCachedRetry: false });
   azureDevopsClient.setToken(authData.token);
 }
 
 importer.on({ action: "listFilters" }, async ({}, {identifier, settings}) => {
   await authenticate();
+  await getOrganizationInfo();
   return {
     organization: {
       title: "Organization",
       required: true,
-      type: "text",
+      type: "select",
     },
   };
 });
 
 
 importer.on({ action: "filterValues" }, async ({ filterName, filters }, {identifier, settings}) => {
+  let values = [];
   switch (filterName) {
     case "organization":
+      values = await getOrganizationInfo();
   }
-  return [];
+  return values;
 });
 
 importer.on({ action: "listCandidates" }, async ({ filters, nextPage }, {identifier, settings}) => {
   await authenticate();
-
-  const workItemList = await getWorkItems(filters.organization, azureDevopsClient._token);
+  const workItemList = await getWorkItems(filters.organization);
 
   if(workItemList == 'nothing') {
     alert('There is no task to show.');
@@ -62,7 +64,6 @@ importer.on({ action: "listCandidates" }, async ({ filters, nextPage }, {identif
   
 });
 
-
 importer.on({ action: "renderRecord" }, ({ record, onUnmounted }, { identifier, settings }) => {
   onUnmounted(() => {
     console.log("Un-mounting component for", record.identifier);
@@ -73,10 +74,8 @@ importer.on({ action: "renderRecord" }, ({ record, onUnmounted }, { identifier, 
       <h6>{record.state}</h6>
       <a href={`${record.url}`}>{record.name}</a>
     </div>
-  );
-  
+  );  
 });
-
 
 importer.on({ action: "importRecord" }, async ({ importRecord, ahaRecord }, {identifier, settings}) => {
   await authenticate();
@@ -84,57 +83,3 @@ importer.on({ action: "importRecord" }, async ({ importRecord, ahaRecord }, {ide
     `<a href='${importRecord.url}'>View on Azure Devops</a></p>`;
   await ahaRecord.save();
 });
-
-class AuthError extends Error {
-  constructor(message) {
-    super(message);
-  }
-}
-
-async function getWorkItems(organization, token) {
-  let headers = {
-    'Authorization': "Bearer " + token,
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  };
-
-  const body = {
-    "query": "Select  [System.Id], [System.Title], [System.State] From WorkItems"
-  };
-
-  let response = await fetch(
-    `https://dev.azure.com/${organization}/_apis/wit/wiql?api-version=5.1`,
-    {
-      method: 'POST',
-      headers: headers,
-      body:  JSON.stringify(body)
-    }
-  );
-
-  if (!response.ok && response.status === 401) {
-    return false;
-  }
-
-  let json = await response.json();
-  if(json.workItems.length === 0) {
-    return "nothing";
-  }
-
-  const workitemsIdStr = json.workItems.map(workitem => workitem.id).join(",");
-
-  response = await fetch(
-    `https://dev.azure.com/${organization}/_apis/wit/workitems?ids=${workitemsIdStr}&$expand=all&api-version=6.0`,
-    {
-      method: 'GET',
-      headers: headers,
-    }
-  );
-
-  if (!response.ok && response.status === 401) {
-    throw new AuthError(response.statusText);
-  }
-
-  json = await response.json();
-
-  return json.value;
-}

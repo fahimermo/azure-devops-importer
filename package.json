@@ -18,7 +18,8 @@
   },
   "ahaExtension": {
     "cspSources": [
-      "https://dev.azure.com"
+      "https://dev.azure.com",
+      "https://app.vssps.visualstudio.com"
     ],
     "contributes": {
       "importers": {
