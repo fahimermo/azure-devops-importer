@@ -1,0 +1,8 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["package.json"],
+      "url": "./.aha-cache/schema/package-schema.json"
+    }
+  ]
+}

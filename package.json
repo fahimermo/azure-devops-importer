@@ -1,0 +1,32 @@
+{
+  "name": "my-new-importer.importer",
+  "description": "azure-devops-importer",
+  "version": "0.0.0",
+  "author": "azure-devops-importer",
+  "repository": {
+    "type": "git",
+    "url": "TODO: Add the GitHub URL to your extension in package.json"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^16.8.0",
+    "axios": "^0.21.1"
+  },
+  "dependencies": {
+    "@aha-app/aha-develop-react": "^1.0.4",
+    "react": "^17.0.2"
+  },
+  "ahaExtension": {
+    "cspSources": [
+      "https://dev.azure.com"
+    ],
+    "contributes": {
+      "importers": {
+        "azureDevopsImporter": {
+          "title": "Azure Devops",
+          "entryPoint": "src/importers/azureDevopsImporter.js"
+        }
+      }
+    }
+  }
+}
