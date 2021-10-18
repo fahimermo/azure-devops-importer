@@ -4,7 +4,7 @@ import azureDevopsClient, { getOrganizationInfo, getWorkItems} from './azureDevo
 const importer = aha.getImporter("my-new-importer.importer.azureDevopsImporter");
 
 async function authenticate() {
-  const authData = await aha.auth("ado", { useCachedRetry: false });
+  const authData = await aha.auth("ado", { useCachedRetry: true });
   azureDevopsClient.setToken(authData.token);
 }
 
