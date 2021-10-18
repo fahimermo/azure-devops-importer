@@ -33,6 +33,7 @@ importer.on({ action: "filterValues" }, async ({ filterName, filters }, {identif
 importer.on({ action: "listCandidates" }, async ({ filters, nextPage }, {identifier, settings}) => {
   await authenticate();
   const workItemList = await getWorkItems(filters.organization);
+  console.log(workItemList);
 
   if(workItemList == 'nothing') {
     alert('There is no task to show.');
@@ -47,7 +48,8 @@ importer.on({ action: "listCandidates" }, async ({ filters, nextPage }, {identif
         uniqueId: workItem.id,
         name: workItem.fields['System.Title'],
         state: workItem.fields['System.State'],
-        url: workItem._links.html.href
+        url: workItem._links.html.href,
+        description: workItem.fields['System.Description']
       }));
     
       return { 
@@ -80,6 +82,7 @@ importer.on({ action: "renderRecord" }, ({ record, onUnmounted }, { identifier, 
 importer.on({ action: "importRecord" }, async ({ importRecord, ahaRecord }, {identifier, settings}) => {
   await authenticate();
   ahaRecord.description =
-    `<a href='${importRecord.url}'>View on Azure Devops</a></p>`;
+    `${importRecord.description}<p><a href='${importRecord.url}'>View on Azure Devops</a></p>`;
   await ahaRecord.save();
 });
+
