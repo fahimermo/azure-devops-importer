@@ -1,7 +1,6 @@
 # Azure Devops Task Importer - Aha Extension
   
-TODO: Supply a short overview of the functionality the extension brings to Aha! Develop
-TThis [Aha! Develop](https://www.aha.io/develop/overview) extension allows you to bring Asana Tasks into Aha!. It currently supports:
+This [Aha! Develop](https://www.aha.io/develop/overview) extension allows you to bring Azure Devops Tasks into Aha!. It currently supports:
 
 - Title (as String)
 - Description (as HTML)
