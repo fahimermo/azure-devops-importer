@@ -37,7 +37,6 @@ Install the extension into Aha! and set up a watcher:
 ```sh
 yarn install or npm install
 aha extension:install
-aha extension:watch
 ```
 
 Now, any change you make inside your working copy will automatically take effect in your Aha! account.
