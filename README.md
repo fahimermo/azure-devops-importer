@@ -1,15 +1,12 @@
-# azure-devops-importer
+# Azure Devops Task Importer - Aha Extension
   
 TODO: Supply a short overview of the functionality the extension brings to Aha! Develop
-This [Aha! Develop](https://www.aha.io/develop/overview) extension enables...
+TThis [Aha! Develop](https://www.aha.io/develop/overview) extension allows you to bring Asana Tasks into Aha!. It currently supports:
 
-It provides these contributions:
-
-TODO: Add a contribution list here. These should briefly describe each of the features provided by this extension.
+- Title (as String)
+- Description (as HTML)
 
 ## Demo
-
-TODO: Add a short .gif screen recording showing some of the highlights of your extension. This can be recorded using a tool like [LICECap](https://www.cockos.com/licecap/).
 
 ![demo](demo.gif)
 
@@ -17,8 +14,7 @@ TODO: Add a short .gif screen recording showing some of the highlights of your e
 
 **Note: In order to install an extension into your Aha! Develop account, you must be an account administrator.**
 
-TODO: Fill in a link to your built extension package
-Install the azure-devops-importer extension by clicking [here](https://secure.aha.io/settings/account/extensions/install?url=).
+Install the Azure devops Importer extension by clicking [here](https://secure.aha.io/settings/account/extensions/install?url=).
 
 ## Working on the extension
 
@@ -32,7 +28,7 @@ Clone the repo:
 
 TODO: Add the repository URL here
 ```sh
-git clone ...
+git clone https://github.com/fahimermo/azure-devops-importer
 ```
 
 **Note: In order to install an extension into your Aha! Develop account, you must be an account administrator.**
@@ -40,6 +36,7 @@ git clone ...
 Install the extension into Aha! and set up a watcher:
 
 ```sh
+yarn install or npm install
 aha extension:install
 aha extension:watch
 ```
