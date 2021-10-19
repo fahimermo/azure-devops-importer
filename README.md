@@ -7,7 +7,7 @@ This [Aha! Develop](https://www.aha.io/develop/overview) extension allows you to
 
 ## Demo
 
-![demo](demo.gif)
+![Azure Devops Importer Demo](demo.gif)
 
 ## Installing the extension
 
